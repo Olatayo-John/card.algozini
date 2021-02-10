@@ -35,12 +35,18 @@
             </div>
         </div>
         <div>
-            <div class="row mt-5">
+            <div class="text-danger mt-5">
+                <span class="text-danger wha_num_err text-center" style="visibility:hidden">xxx</span>
+            </div>
+            <div class="row">
                 <div class="form-group col">
-                    <input type="number" name="whatsapp_input" class="form-control whatsapp_input" placeholder="Enter your whatsapp number">
+                    <div class="d-flex">
+                        <input type="text" maxlength="5" name="country_code" class="form-control country_code" placeholder="+12" style="width:65px">
+                        <input type="number" name="whatsapp_input" class="form-control whatsapp_input" placeholder="Enter whatsapp number">
+                    </div>
                 </div>
                 <div class="mr-3">
-                    <button type="button" class="text-light" style="background:#51B14D;padding: .375rem .75rem;border:none">
+                    <button type="button" class="text-light share_n_whatsapp_btn" style="background:#51B14D;padding: .375rem .75rem;border:none">
                         <i class="fab fa-whatsapp"></i>
                         Share on Whatsapp</button>
                 </div>
@@ -49,20 +55,20 @@
         <div>
             <div class="d-flex mt-3" style="justify-content: space-between;">
                 <div class="">
-                    <button type="button" class="text-light btn" style="background:#003f4a;;border:none">
+                    <button type="button" class="text-light btn add_phone_btn" style="background:#003f4a;;border:none">
                         <i class="fas fa-download"></i>
                         Add to Phonebook
                     </button>
                 </div>
                 <div class="">
-                    <button type="button" class="text-light btn" style="background:#003f4a;border:none">
+                    <button type="button" class="text-light btn share_btn" style="background:#003f4a;border:none">
                         <i class="fas fa-share-alt"></i>
                         Share
                     </button>
                 </div>
             </div>
             <div class="mt-2">
-                <button type="button" class="btn btn-block text-light" style="background:#003f4a">
+                <button type="button" class="btn btn-block text-light savecard_btn" style="background:#003f4a">
                     <i class="fas fa-cloud-download-alt"></i>
                     Save Card</button>
             </div>
@@ -137,7 +143,10 @@
         <h4>FEEDBACKS</h4>
         <hr>
         <div class="mt-5">
-            <form action="" method="post">
+            <form method="post">
+                <div class="form-group text-center eq_form_err_div">
+                    <span class="eq_form_err text-danger" style="display:none">error</span>
+                </div>
                 <h6>Give Feedback</h6>
                 <div class="form-group">
                     <div class="feedback_star">
@@ -153,10 +162,10 @@
                     <input type="text" class="form-control f_name" name="f_name" placeholder="Enter Full Name" required>
                 </div>
                 <div class="form-group">
-                    <textarea rows="3" cols="5" class='form-control' placeholder="Enter your feedback" required></textarea>
+                    <textarea rows="3" cols="5" class='form-control fdbk_msg' name="fdbk_msg" placeholder="Enter your feedback" required></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn text-light fedbk_btn" style="background-color:#003f4a">Give feedback</button>
+                    <button type="submit" class="btn text-light fedbk_btn" name="fedbk_btn" style="background-color:#003f4a">Give feedback</button>
                 </div>
             </form>
         </div>
@@ -168,9 +177,12 @@
         <h4>ENQUIRY FORM</h4>
         <hr>
         <div class="mt-5">
-            <form action="" method="post">
+            <form method="post">
+                <div class="form-group text-center form_err_div">
+                    <span class="form_err text-danger" style="display:none">error</span>
+                </div>
                 <div class="form-group">
-                    <input type="text" class="form-control f_name" name="f_name" placeholder="Enter Full Name" required>
+                    <input type="text" class="form-control fname" name="fname" placeholder="Enter Full Name" required>
                 </div>
                 <div class="row">
                     <div class="form-group col">
@@ -181,10 +193,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <textarea rows="3" cols="5" class='form-control' placeholder="Enter Message" required></textarea>
+                    <textarea rows="3" cols="5" class='form-control msg' name="msg" placeholder="Enter Message" required></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn text-light" style="background-color:#003f4a">Send</button>
+                    <button type="submit" name="enqu_btn" class="btn text-light enqu_btn" style="background-color:#003f4a">Send</button>
                 </div>
             </form>
         </div>
@@ -197,5 +209,211 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.share_n_whatsapp_btn', function(e) {
+            var country_code = $(".country_code").val();
+            var wha_num = $(".whatsapp_input").val();
+
+            if (country_code == "" || country_code == null) {
+                $(".country_code").css('border', '1px solid red');
+                return false;
+            } else {
+                $(".country_code").css('border', '1px solid #ced4da');
+            }
+            if (!country_code.startsWith("+") || country_code.endsWith("+") || !country_code.includes("+")) {
+                $(".country_code").css('border', '1px solid red');
+                $(".wha_num_err").html("Invalid country code").css('visibility', 'visible');
+                return false;
+            } else {
+                $(".country_code").css('border', '1px solid #ced4da');
+                $(".wha_num_err").css('visibility', 'hidden');
+            }
+
+
+            if (wha_num == "" || wha_num == null) {
+                $(".whatsapp_input").css('border', '1px solid red');
+                return false;
+            } else {
+                $(".whatsapp_input").css('border', '1px solid #ced4da');
+            }
+            if (wha_num.length > 10 || wha_num.length < 10) {
+                $(".whatsapp_input").css('border', '1px solid red');
+                $(".wha_num_err").html("Invalid mobile length").css('visibility', 'visible');
+                return false;
+            } else {
+                $(".whatsapp_input").css('border', '1px solid #ced4da');
+                $(".wha_num_err").css('visibility', 'hidden');
+            }
+
+            var text = "Message descrption";
+            var whats_url = "https://api.whatsapp.com/send/?phone=" + country_code + wha_num + "&text=" + encodeURIComponent(text);
+            window.open(whats_url);
+        });
+
+        $(document).on('click', '.add_phone_btn', function(e) {});
+
+        $(document).on('click', '.share_btn', function(e) {});
+
+        $(document).on('click', '.savecard_btn', function(e) {});
+
+        $(document).on('click', '.fedbk_btn', function(e) {
+            e.preventDefault();
+            $(".eq_form_err").hide();
+            var star = $(".star_value").val();
+            var name = $(".f_name").val();
+            var msg = $(".fdbk_msg").val();
+
+            if (star == "" || star == null) {
+                $(".feedback_star").css('border', '1px solid red');
+                $(".eq_form_err").removeClass("text-success").addClass("text-danger");
+                $(".eq_form_err").html("Select a rating").show();
+                return false;
+            } else {
+                $(".feedback_star").css('border', '1px solid #ced4da');
+                $(".eq_form_err").hide();
+            }
+            if (name == "" || name == null) {
+                $(".f_name").css('border', '1px solid red');
+                $(".eq_form_err").removeClass("text-success").addClass("text-danger");
+                $(".eq_form_err").html("Name field is required").show();
+                return false;
+            } else {
+                $(".f_name").css('border', '1px solid #ced4da');
+                $(".eq_form_err").hide();
+            }
+            if (msg == "" || msg == null) {
+                $(".fdbk_msg").css('border', '1px solid red');
+                $(".eq_form_err").removeClass("text-success").addClass("text-danger");
+                $(".eq_form_err").html("Message field is required").show();
+                return false;
+            } else {
+                $(".fdbk_msg").css('border', '1px solid #ced4da');
+                $(".eq_form_err").hide();
+            }
+
+            $.ajax({
+                method: "post",
+                url: "php/feedback.php",
+                dataType: 'json',
+                data: {
+                    star: star,
+                    name: name,
+                    msg: msg,
+                },
+                success: function(data) {
+                    if (data.status === "error") {
+                        // console.log(data.msg);
+                        window.location.reload();
+                    } else if (data.status === "invalid") {
+                        // console.log(data.msg);
+                        $(".eq_form_err").removeClass("text-success").addClass("text-danger");
+                        $(".eq_form_err").html(data.msg).show();
+                    } else if (data.status === "success") {
+                        console.log(data);
+                        $(".eq_form_err").removeClass("text-danger").addClass("text-success");
+                        $(".eq_form_err").html("Thanks for your Feedback!!").show();
+
+                        $(".starone,.startwo,.starthree,.starfour,.starfive").removeClass('fas').addClass('far').css('color', 'black');
+                        $(".f_name").val("");
+                        $(".star_value").val("");
+                        $(".fdbk_msg").val("");
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.enqu_btn', function(e) {
+            e.preventDefault();
+            $(".form_err").hide();
+            var name = $(".fname").val();
+            var mobile = $(".mobile").val();
+            var mail = $(".email").val();
+            var msg = $(".msg").val();
+
+            if (name == "" || name == null) {
+                $(".fname").css('border', '1px solid red');
+                $(".form_err").removeClass("text-success").addClass("text-danger");
+                $(".form_err").html("Name field is required").show();
+                return false;
+            } else {
+                $(".fname").css('border', '1px solid #ced4da');
+                $(".form_err").hide();
+            }
+            if (mobile == "" || mobile == null) {
+                $(".mobile").css('border', '1px solid red');
+                $(".form_err").removeClass("text-success").addClass("text-danger");
+                $(".form_err").html("Mobile field is required").show();
+                return false;
+            } else {
+                $(".mobile").css('border', '1px solid #ced4da');
+                $(".form_err").hide();
+            }
+            if (mobile.length > 10 || mobile.length < 10) {
+                $(".mobile").css('border', '1px solid red');
+                $(".form_err").removeClass("text-success").addClass("text-danger");
+                $(".form_err").html("Invalid mobile length").show();
+                return false;
+            } else {
+                $(".mobile").css('border', '1px solid #ced4da');
+                $(".form_err").hide();
+            }
+            if (mail == "" || mail == null) {
+                $(".email").css('border', '1px solid red');
+                $(".form_err").removeClass("text-success").addClass("text-danger");
+                $(".form_err").html("Mail field is required").show();
+                return false;
+            } else {
+                $(".email").css('border', '1px solid #ced4da');
+                $(".form_err").hide();
+            }
+            if (msg == "" || msg == null) {
+                $(".msg").css('border', '1px solid red');
+                $(".form_err").removeClass("text-success").addClass("text-danger");
+                $(".form_err").html("Message field is required").show();
+                return false;
+            } else {
+                $(".msg").css('border', '1px solid #ced4da');
+                $(".form_err").hide();
+            }
+
+            $.ajax({
+                method: "post",
+                url: "php/enquiry.php",
+                dataType: 'json',
+                data: {
+                    name: name,
+                    mobile: mobile,
+                    mail: mail,
+                    msg: msg,
+                },
+                beforeSend: function(data) {
+                    $(".enqu_btn").html("Sending...");
+                },
+                success: function(data) {
+                    if (data.status === "error") {
+                        // console.log(data.msg);
+                        window.location.reload();
+                    } else if (data.status === "invalid") {
+                        console.log(data.msg);
+                        $(".form_err").removeClass("text-success").addClass("text-danger");
+                        $(".form_err").html(data.msg).show();
+                    } else if (data.status === "success") {
+                        $(".form_err").removeClass("text-danger").addClass("text-success");
+                        $(".form_err").html("Thanks for your Enquiry!!").show();
+
+                        $(".fname").val("");
+                        $(".mobile").val("");
+                        $(".email").val("");
+                        $(".msg").val("");
+
+                        $(".enqu_btn").html("Send");
+                    }
+                }
+            });
+        });
+    });
+</script>s
 
 <?php include('footer.php') ?>

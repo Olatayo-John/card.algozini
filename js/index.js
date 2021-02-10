@@ -28,17 +28,6 @@ $(document).ready(function () {
         $(".star_value").val("5");
     });
 
-    $(document).on('click', '.fedbk_btn', function () {
-        var star_value = $(".star_value").val();
-
-        if (star_value == "" || star_value == null) {
-            $(".feedback_star").css("border", "1px solid red");
-            return false;
-        } else {
-            $(".feedback_star").css("border", "1px solid #ced4da");
-        }
-    });
-
     $(document).on('click', '.closemodalbtn', function () {
         $('.e_mobile').hide();
         $('.msgmodal').modal('hide');
